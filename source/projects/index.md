@@ -3,7 +3,7 @@ title: 项目
 date: 2026-09-17 10:00:00
 ---
 
-## 苍穹外卖（sky-take-out）
+## 速达外卖（sky-take-out）
 
 - **简介**：基于 Spring Boot + MyBatis 的外卖点餐系统，包含管理端和用户端
 - **技术栈**：Spring Boot、MyBatis、MySQL、Redis、阿里云 OSS、微信支付、WebSocket
