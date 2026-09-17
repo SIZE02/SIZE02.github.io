@@ -11,4 +11,4 @@ date: 2026-09-17 10:00:00
   - 员工管理、菜品管理、订单管理
   - 微信登录、微信支付
   - Redis 缓存、WebSocket 来单提醒
-- **代码**：[GitHub 仓库链接]
+- **代码**：[Gitee 仓库](https://gitee.com/shrimp-delicacy/cangqiong_test)
