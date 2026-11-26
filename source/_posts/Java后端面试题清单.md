@@ -3,6 +3,7 @@ title: Java 后端面试题清单
 date: 2026-10-09 10:00:00
 tags: [面试, 八股文, Java]
 categories: 面试笔记
+random: false
 ---
 
 ## 一、Java 基础（必问，占比约 20%）

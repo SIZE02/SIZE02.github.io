@@ -6,7 +6,12 @@ hexo.extend.generator.register("random", function (locals) {
   const posts = [];
   const link = locals.data.link || [];
   for (const post of locals.posts.data) {
-    if (post.random !== false) posts.push(post.path);
+    if (post.random !== false) {
+      posts.push({
+        path: post.path,
+        title: post.title,
+      });
+    }
   }
 
   const link_list = [];
@@ -17,10 +22,30 @@ hexo.extend.generator.register("random", function (locals) {
     });
   });
 
-  let result = `var posts=${JSON.stringify(
-    posts
-  )};function toRandomPost(){
-    ${pjaxEn ? "pjax.loadUrl('/'+posts[Math.floor(Math.random() * posts.length)]);" : "window.location.href='/'+posts[Math.floor(Math.random() * posts.length)];"}
+  const navigateToPost = pjaxEn
+    ? "pjax.loadUrl('/'+post.path);"
+    : "window.location.href='/'+post.path;";
+
+  let result = `var posts=${JSON.stringify(posts)};
+  var randomPostStorageKey="anzhiyu-last-random-post";
+  function toRandomPost(){
+    if(!posts.length) return;
+    var lastPost="";
+    try { lastPost=sessionStorage.getItem(randomPostStorageKey)||""; } catch (error) {}
+    var pool=posts.filter(function(item){ return item.path!==lastPost; });
+    if(!pool.length) pool=posts;
+    var post=pool[Math.floor(Math.random()*pool.length)];
+    try { sessionStorage.setItem(randomPostStorageKey,post.path); } catch (error) {}
+    if(window.Snackbar){
+      Snackbar.show({
+        text:"随机到《"+post.title+"》",
+        pos:"top-center",
+        duration:2200,
+        actionText:"换一篇",
+        onActionClick:function(){ toRandomPost(); }
+      });
+    }
+    ${navigateToPost}
   };`;
 
   if (themeConfig.footer.list.enable && randomNumberFriend > 0) {

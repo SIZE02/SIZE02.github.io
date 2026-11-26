@@ -17,7 +17,6 @@
     box-shadow: var(--anzhiyu-shadow-main);
     #random-hover
       opacity: 1;
-      padding-left: 2rem;
       background: var(--anzhiyu-theme-op-deep);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
@@ -39,19 +38,47 @@
     left: 0;
     background: var(--anzhiyu-theme);
     color: var(--anzhiyu-white);
-    padding-left: 0.5rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     opacity: 0;
     transition: cubic-bezier(0.71, 0.15, 0.16, 1.15) 0.6s;
-    font-size: 60px;
+    font-size: 42px;
+    .random-hover-action
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      height: 100%;
+      padding: 2rem;
+      color: var(--anzhiyu-white);
+      text-decoration: none;
+      transition: background 0.25s ease;
+      &:first-child
+        flex: 1.45;
+        border-right: 1px solid rgba(255, 255, 255, 0.22);
+      &:hover
+        background: rgba(255, 255, 255, 0.12);
+    .random-hover-kicker
+      margin-bottom: 0.5rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      opacity: 0.72;
     .bannerText
       display: flex
       align-items: center
+      font-size: clamp(2rem, 3.4vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.15;
     i
-      font-size: 80px;
-      margin-left: 10px;
+      font-size: clamp(2.2rem, 3.8vw, 4rem);
+      margin-left: 0.6rem;
       line-height: 1;
+    .album-entry
+      flex: 0.95;
+      .bannerText
+        font-size: clamp(1.8rem, 2.8vw, 3rem);
   +maxWidth1200()
     display: none;

@@ -14,10 +14,15 @@ if home_top_config.enable
               .banners-title-small=siteText
             include ../anzhiyu/tags-group-all.pug
 
-          a#random-hover(href='javascript:toRandomPost()')
-            i.anzhiyufont.anzhiyu-icon-paper-plane
-            .bannerText 随便逛逛
-              i.anzhiyufont.anzhiyu-icon-arrow-right
+          #random-hover
+            a.random-hover-action(href='javascript:toRandomPost()', title='随机打开一篇笔记')
+              span.random-hover-kicker RANDOM NOTE
+              .bannerText 随便逛逛
+                i.anzhiyufont.anzhiyu-icon-arrow-right
+            a.random-hover-action.album-entry(href=url_for('/album/'), title='打开相册')
+              span.random-hover-kicker PHOTO ALBUM
+              .bannerText 相册
+                i.anzhiyufont.anzhiyu-icon-images
         .categoryGroup
           each item in home_top_config.category
             .categoryItem(style=`box-shadow:${item.shadow}`)
