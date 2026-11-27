@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#111827" />
+    <title>项目管理 | 猫me的博客</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./projects-admin.css" />
+    <script defer src="./vendor/js-yaml.min.js"></script>
+    <script defer src="./projects.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">猫</div>
+          <div>
+            <strong>项目管理</strong>
+            <span>项目页 · GitHub Pages</span>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <span id="connectionBadge" class="connection-badge">未连接</span>
+          <button id="newProjectBtn" class="button primary" type="button">
+            <span aria-hidden="true">＋</span> 新增项目
+          </button>
+          <button id="refreshBtn" class="button" type="button" title="重新读取项目">
+            <span aria-hidden="true">↻</span> 刷新
+          </button>
+          <a class="button" href="./">文章管理</a>
+          <a class="button" href="https://size02.github.io/projects/" target="_blank" rel="noopener">
+            <span aria-hidden="true">↗</span> 查看项目页
+          </a>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-head">
+            <label class="search-box">
+              <span aria-hidden="true">⌕</span>
+              <input id="searchInput" type="search" placeholder="搜索项目或技术栈" autocomplete="off" />
+            </label>
+            <button id="sidebarToggle" class="button icon-button mobile-only" type="button" title="收起项目列表">
+              ×
+            </button>
+          </div>
+
+          <div class="sidebar-meta">
+            <span id="projectCount">0 个项目</span>
+            <span id="syncState">等待连接</span>
+          </div>
+
+          <div id="projectList" class="post-list" aria-live="polite">
+            <div class="list-placeholder">
+              <span class="spinner"></span>
+              正在读取项目…
+            </div>
+          </div>
+
+          <div class="sidebar-footer">
+            <a href="./">← 文章管理</a>
+            <a href="https://size02.github.io/projects/" target="_blank" rel="noopener">查看项目页 ↗</a>
+            <a href="https://github.com/SIZE02/SIZE02.github.io/blob/main/source/_data/projects.yml" target="_blank" rel="noopener">
+              项目数据文件 ↗
+            </a>
+          </div>
+        </aside>
+
+        <section class="editor-panel">
+          <div id="emptyState" class="empty-state">
+            <div class="empty-illustration">◇</div>
+            <h1>管理我的项目</h1>
+            <p>新增项目、技术栈、亮点和源码链接，保存后项目页会自动更新。</p>
+            <div class="empty-actions">
+              <a id="connectLink" class="button primary" href="./">去文章后台连接 GitHub</a>
+              <button id="emptyNewBtn" class="button" type="button">新增项目</button>
+            </div>
+          </div>
+
+          <form id="projectForm" class="editor hidden" autocomplete="off">
+            <div class="editor-head">
+              <div>
+                <div id="editorMode" class="eyebrow">编辑项目</div>
+                <h1 id="editorHeading">未命名项目</h1>
+                <p class="file-path">source/_data/projects.yml</p>
+              </div>
+              <div class="editor-head-actions">
+                <button id="saveBtnTop" class="button primary" type="submit">保存项目</button>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <label class="field field-wide">
+                <span>项目名称 <b>*</b></span>
+                <input id="titleInput" type="text" required placeholder="例如：速达外卖" />
+              </label>
+
+              <label class="field">
+                <span>一行说明</span>
+                <input id="subtitleInput" type="text" placeholder="sky-take-out · 单体外卖系统" />
+              </label>
+
+              <label class="field">
+                <span>项目状态</span>
+                <input id="statusInput" type="text" placeholder="已完成 / 进行中 / 维护中" />
+              </label>
+
+              <label class="field">
+                <span>排序</span>
+                <input id="orderInput" type="number" min="1" step="1" placeholder="数字越小越靠前" />
+              </label>
+
+              <label class="field">
+                <span>源码链接</span>
+                <input id="repoInput" type="url" placeholder="https://gitee.com/..." />
+              </label>
+
+              <label class="field">
+                <span>在线演示</span>
+                <input id="demoInput" type="url" placeholder="没有可以留空" />
+              </label>
+
+              <label class="field">
+                <span>封面图</span>
+                <div class="input-with-button">
+                  <input id="coverInput" type="text" placeholder="/img/uploads/projects/..." />
+                  <button id="uploadCoverBtn" class="button" type="button">上传</button>
+                </div>
+              </label>
+
+              <label class="field field-wide">
+                <span>项目简介</span>
+                <textarea id="summaryInput" rows="3" placeholder="用一两句话说明项目做了什么、覆盖哪些业务"></textarea>
+              </label>
+
+              <label class="field field-wide">
+                <span>技术栈</span>
+                <input id="stackInput" type="text" placeholder="Spring Boot, MyBatis, MySQL, Redis" />
+                <small class="field-hint">用逗号或中文逗号分隔</small>
+              </label>
+
+              <label class="field field-wide">
+                <span>项目亮点</span>
+                <textarea id="highlightsInput" rows="7" placeholder="每行写一条项目亮点"></textarea>
+                <small class="field-hint">每行一条，最多建议 5～8 条</small>
+              </label>
+
+              <div id="coverPreview" class="cover-preview field-wide hidden">
+                <img id="coverPreviewImage" alt="项目封面预览" />
+              </div>
+
+              <label class="field field-wide">
+                <span>详细介绍（Markdown）</span>
+                <textarea id="detailsInput" class="details-input" rows="16" placeholder="可以使用标题、列表和粗体，支持 Markdown"></textarea>
+                <small class="field-hint">建议按“业务模块 / 技术重点 / 面试怎么讲”三段来写</small>
+              </label>
+            </div>
+
+            <div class="save-bar">
+              <div id="saveStatus" class="save-status">等待编辑</div>
+              <div class="save-actions">
+                <button id="deleteBtn" class="button danger" type="button">删除项目</button>
+                <a id="viewProjectLink" class="button" href="https://size02.github.io/projects/" target="_blank" rel="noopener">
+                  查看项目页 ↗
+                </a>
+                <button id="saveBtnBottom" class="button primary" type="submit">保存项目</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <input id="imageFileInput" type="file" accept="image/*" hidden />
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <noscript>
+      <div class="noscript">项目管理需要启用 JavaScript。</div>
+    </noscript>
+  </body>
+</html>

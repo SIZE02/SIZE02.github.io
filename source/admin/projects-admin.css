@@ -1,0 +1,61 @@
+.field-hint {
+  color: var(--muted-2);
+  font-size: 11px;
+}
+
+.details-input {
+  min-height: 280px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.75;
+  tab-size: 2;
+}
+
+.cover-preview {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(8, 11, 20, 0.5);
+}
+
+.cover-preview img {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+}
+
+.project-item-status {
+  color: #86efac;
+}
+
+.sidebar-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+
+.project-data-note {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(109, 124, 255, 0.06);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (max-width: 760px) {
+  .editor-head-actions {
+    width: 100%;
+  }
+
+  .editor-head-actions .button {
+    flex: 1;
+  }
+
+  .details-input {
+    min-height: 360px;
+  }
+}

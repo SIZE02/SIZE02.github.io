@@ -1,0 +1,89 @@
+- order: 1
+  title: 速达外卖
+  subtitle: sky-take-out · 单体外卖点餐系统
+  status: 已完成
+  summary: 基于 Spring Boot + MyBatis 的外卖点餐系统，覆盖管理端、用户端小程序、订单与支付完整链路。
+  stack:
+    - Spring Boot
+    - MyBatis
+    - MySQL
+    - Redis
+    - 阿里云 OSS
+    - 微信支付
+    - WebSocket
+  highlights:
+    - Redis 缓存菜品和套餐，降低高频查询压力
+    - 阿里云 OSS 统一存储菜品与套餐图片
+    - WebSocket 实现来单提醒与客户催单
+    - 微信支付回调推动订单状态流转
+    - AOP 自动填充公共字段，统一处理审计信息
+  repo: https://gitee.com/shrimp-delicacy/cangqiong_test
+  demo: ""
+  cover: ""
+  details: |
+    ### 管理端
+
+    - 员工管理：登录、分页查询、启用禁用、编辑
+    - 分类管理、菜品管理、套餐管理
+    - 订单管理：接单、拒单、派送、完成、统计
+    - 数据统计：营业额、订单量、用户量
+    - 来单提醒、客户催单：WebSocket 实时推送
+
+    ### 用户端
+
+    - 微信登录与微信支付
+    - 浏览菜品、加入购物车、下单
+    - 查看当前订单与历史订单
+
+    ### 适合怎么讲
+
+    这个项目适合讲清楚一条完整的单体业务链路：登录鉴权、菜品管理、缓存、下单、支付回调、订单状态流转和 WebSocket 实时提醒。面试时可以重点讲 Redis 缓存一致性、支付回调幂等和 WebSocket 会话管理。
+
+- order: 2
+  title: 商城微服务
+  subtitle: hmall · Spring Cloud 微服务商城
+  status: 已完成
+  summary: 基于 Spring Cloud 的微服务商城系统，覆盖商品、购物车、订单、支付、用户与网关鉴权。
+  stack:
+    - Spring Boot
+    - Spring Cloud
+    - Spring Cloud Alibaba
+    - Nacos
+    - OpenFeign
+    - Gateway
+    - MySQL
+    - MyBatis-Plus
+    - Redis
+    - Docker
+  highlights:
+    - Nacos 负责服务注册发现与配置管理
+    - OpenFeign 完成服务间调用并配置 Fallback 容错
+    - Gateway 统一路由与 JWT 登录鉴权
+    - Redis 缓存热点数据，提升查询性能
+    - Docker Compose 一键部署整套微服务
+  repo: https://gitee.com/shrimp-delicacy/mall
+  demo: ""
+  cover: ""
+  details: |
+    ### 服务拆分
+
+    - **item-service**：商品管理、分页查询、条件搜索
+    - **cart-service**：购物车增删改查、数量与选中状态管理
+    - **trade-service**：订单创建、订单查询、状态流转、库存扣减
+    - **pay-service**：支付单创建、支付状态同步、支付回调
+    - **user-service**：用户登录、用户信息、收货地址
+    - **hm-gateway**：统一路由、JWT 鉴权、登录拦截
+    - **hm-common**：公共工具、统一异常处理、统一返回结果
+    - **hm-api**：Feign 客户端与服务间接口定义
+
+    ### 技术重点
+
+    - Nacos 服务注册发现与配置中心
+    - OpenFeign 远程调用与 Fallback 容错
+    - Gateway 全局过滤器统一鉴权
+    - Redis 缓存与购物车数据
+    - Docker Compose 编排部署
+
+    ### 适合怎么讲
+
+    这个项目适合讲微服务拆分边界、服务间调用、统一鉴权、配置管理和部署。面试时重点说明为什么这样拆服务、Feign 超时与降级怎么处理、网关如何传递用户身份，以及 Docker Compose 的启动顺序和依赖关系。
