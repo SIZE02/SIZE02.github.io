@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#111827" />
+    <title>写作后台 | 猫me的博客</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script defer src="./vendor/js-yaml.min.js"></script>
+    <script defer src="./vendor/marked.min.js"></script>
+    <script defer src="./vendor/purify.min.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">猫</div>
+          <div>
+            <strong>写作后台</strong>
+            <span>GitHub Pages · Markdown</span>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <span id="connectionBadge" class="connection-badge">未连接</span>
+          <button id="newPostBtn" class="button primary" type="button">
+            <span aria-hidden="true">＋</span> 新文章
+          </button>
+          <button id="refreshBtn" class="button" type="button" title="重新读取文章">
+            <span aria-hidden="true">↻</span> 刷新
+          </button>
+          <a class="button" href="https://size02.github.io/" target="_blank" rel="noopener">
+            <span aria-hidden="true">↗</span> 打开网站
+          </a>
+          <button id="settingsBtn" class="button icon-button" type="button" title="账号与 Token">
+            ⚙
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-head">
+            <label class="search-box">
+              <span aria-hidden="true">⌕</span>
+              <input id="searchInput" type="search" placeholder="搜索标题、分类或文件名" autocomplete="off" />
+            </label>
+            <button id="sidebarToggle" class="button icon-button mobile-only" type="button" title="收起文章列表">
+              ×
+            </button>
+          </div>
+
+          <div class="sidebar-meta">
+            <span id="postCount">0 篇文章</span>
+            <span id="syncState">等待连接</span>
+          </div>
+
+          <div id="postList" class="post-list" aria-live="polite">
+            <div class="list-placeholder">
+              <span class="spinner"></span>
+              正在读取文章…
+            </div>
+          </div>
+
+          <div class="sidebar-footer">
+            <a href="https://github.com/SIZE02/SIZE02.github.io/tree/main/source/_posts" target="_blank" rel="noopener">
+              GitHub 文件目录 ↗
+            </a>
+          </div>
+        </aside>
+
+        <section class="editor-panel">
+          <div id="emptyState" class="empty-state">
+            <div class="empty-illustration">✎</div>
+            <h1>随时写一点</h1>
+            <p>连接 GitHub 后，可以从左侧选择文章，或者新建一篇。</p>
+            <div class="empty-actions">
+              <button id="emptyConnectBtn" class="button primary" type="button">连接 GitHub</button>
+              <button id="emptyNewBtn" class="button" type="button">新建文章</button>
+            </div>
+          </div>
+
+          <form id="editorForm" class="editor hidden" autocomplete="off">
+            <div class="editor-head">
+              <div>
+                <div id="editorMode" class="eyebrow">编辑文章</div>
+                <h1 id="editorHeading">未命名文章</h1>
+                <p id="editorPath" class="file-path"></p>
+              </div>
+              <div class="editor-head-actions">
+                <button id="previewBtn" class="button" type="button">预览</button>
+                <button id="saveBtn" class="button primary" type="submit">保存并发布</button>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <label class="field field-wide">
+                <span>标题 <b>*</b></span>
+                <input id="titleInput" name="title" type="text" required placeholder="文章标题" />
+              </label>
+
+              <label class="field" id="slugField">
+                <span>文件名 <b>*</b></span>
+                <div class="input-suffix">
+                  <input id="slugInput" name="slug" type="text" placeholder="my-new-post" />
+                  <em>.md</em>
+                </div>
+              </label>
+
+              <label class="field">
+                <span>发布时间</span>
+                <input id="dateInput" name="date" type="text" placeholder="2026-11-27 09:00:00" />
+              </label>
+
+              <label class="field">
+                <span>更新时间</span>
+                <input id="updatedInput" name="updated" type="text" placeholder="保存时自动更新" />
+              </label>
+
+              <label class="field">
+                <span>分类</span>
+                <input id="categoriesInput" name="categories" type="text" placeholder="黑马 Java, 蓝桥杯 2027" />
+              </label>
+
+              <label class="field">
+                <span>标签</span>
+                <input id="tagsInput" name="tags" type="text" placeholder="Java, Redis, 笔记" />
+              </label>
+
+              <label class="field field-wide">
+                <span>描述</span>
+                <textarea id="descriptionInput" name="description" rows="2" placeholder="用于首页和搜索结果的文章摘要"></textarea>
+              </label>
+
+              <label class="field field-wide">
+                <span>封面图</span>
+                <div class="input-with-button">
+                  <input id="coverInput" name="cover" type="text" placeholder="/img/uploads/cover.jpg" />
+                  <button id="uploadCoverBtn" class="button" type="button">上传</button>
+                </div>
+              </label>
+
+              <label class="check-row field-wide">
+                <input id="randomInput" name="random" type="checkbox" checked />
+                <span>加入“随便逛逛”的随机笔记池</span>
+              </label>
+            </div>
+
+            <div class="editor-toolbar">
+              <div class="toolbar-group" role="group" aria-label="插入 Markdown">
+                <button class="tool-button" type="button" data-insert="h2" title="二级标题">H2</button>
+                <button class="tool-button" type="button" data-insert="bold" title="加粗"><b>B</b></button>
+                <button class="tool-button" type="button" data-insert="italic" title="斜体"><i>I</i></button>
+                <button class="tool-button" type="button" data-insert="inline-code" title="行内代码">&lt;/&gt;</button>
+                <button class="tool-button" type="button" data-insert="code-block" title="代码块">```</button>
+                <button class="tool-button" type="button" data-insert="link" title="链接">↗</button>
+                <button class="tool-button" type="button" data-insert="quote" title="引用">“</button>
+                <button class="tool-button" type="button" data-insert="list" title="列表">≡</button>
+              </div>
+              <div class="toolbar-group">
+                <button id="uploadBodyImageBtn" class="tool-button with-label" type="button">插入图片</button>
+                <span id="wordCount" class="word-count">0 字</span>
+              </div>
+            </div>
+
+            <div class="editor-body" id="editorBody">
+              <textarea id="bodyInput" class="body-input" spellcheck="false" placeholder="在这里写正文，支持 Markdown…"></textarea>
+              <article id="previewPane" class="preview-pane hidden" aria-label="Markdown 预览"></article>
+            </div>
+
+            <div class="save-bar">
+              <div id="saveStatus" class="save-status">等待编辑</div>
+              <div class="save-actions">
+                <button id="deleteBtn" class="button danger" type="button">删除文章</button>
+                <a id="viewPostLink" class="button hidden" href="#" target="_blank" rel="noopener">查看线上文章 ↗</a>
+                <button id="saveBtnBottom" class="button primary" type="submit">保存并发布</button>
+              </div>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="tokenDialog" class="modal">
+      <form id="tokenForm" method="dialog">
+        <div class="modal-head">
+          <div>
+            <div class="eyebrow">首次设置</div>
+            <h2>连接 GitHub</h2>
+          </div>
+          <button id="tokenDialogClose" class="button icon-button" type="button" aria-label="关闭">×</button>
+        </div>
+
+        <p class="modal-intro">
+          后台不需要单独服务器。保存文章时，会使用你的 GitHub Token 直接提交到
+          <code>SIZE02/SIZE02.github.io</code>，随后自动触发 GitHub Pages 更新。
+        </p>
+
+        <ol class="setup-steps">
+          <li>
+            打开
+            <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">
+              GitHub Fine-grained Token
+            </a>
+            创建页面。
+          </li>
+          <li>Token 名称可填 <code>size02-blog-admin</code>，有效期建议 90 天。</li>
+          <li>Repository access 选择 <strong>Only select repositories</strong>，只勾选 <code>SIZE02.github.io</code>。</li>
+          <li>Permissions 中把 <strong>Contents</strong> 设为 <strong>Read and write</strong>。</li>
+          <li>生成后复制 Token，粘贴到下面。Token 只保存在当前浏览器。</li>
+        </ol>
+
+        <label class="field">
+          <span>GitHub Token</span>
+          <input id="tokenInput" type="password" placeholder="github_pat_…" autocomplete="off" />
+        </label>
+
+        <p id="tokenError" class="form-error" role="alert"></p>
+
+        <div class="modal-actions">
+          <button id="clearTokenBtn" class="button danger hidden" type="button">清除已保存 Token</button>
+          <span class="spacer"></span>
+          <a class="button" href="https://github.com/SIZE02/SIZE02.github.io/tree/main/source/_posts" target="_blank" rel="noopener">
+            直接去 GitHub 编辑
+          </a>
+          <button id="connectBtn" class="button primary" type="submit">连接 GitHub</button>
+        </div>
+      </form>
+    </dialog>
+
+    <input id="imageFileInput" type="file" accept="image/*" hidden />
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <noscript>
+      <div class="noscript">写作后台需要启用 JavaScript。</div>
+    </noscript>
+  </body>
+</html>
